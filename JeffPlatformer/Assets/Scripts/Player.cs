@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
     public float moveSpeed; // how fast our player can move
     public float jumpForce; // how high we can jump
 
-    private Rigidbody2D rb; // the link to our rigidbody
+    public Rigidbody2D rb; // the link to our rigidbody
     private SpriteRenderer sprite; // to help flip direction of the player
-    private Animator animator; // the animation controller
+    //private Animator animator; // the animation controller
 
     public bool walking; // these will just help with animations
     public bool jumping;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>(); // our rb is now linked to the rigidbody component on the game object
         sprite = GetComponent<SpriteRenderer>(); // link sprite to the sprite on this game object
-        animator = GetComponent<Animator>(); // link our animator to the animator controller
+        //animator = GetComponent<Animator>(); // link our animator to the animator controller
     }
 
     // Update is called once per frame
@@ -45,8 +45,8 @@ public class Player : MonoBehaviour
             walking = false;
         }
 
-        animator.SetBool("isWalking", walking); // handle the walking animation
-        animator.SetBool("isJumping", jumping); // handle the jumping animation
+        //animator.SetBool("isWalking", walking); // handle the walking animation
+        //animator.SetBool("isJumping", jumping); // handle the jumping animation
 
         if (Input.GetKeyDown(KeyCode.Space)) // jumping with spacebar
         {
