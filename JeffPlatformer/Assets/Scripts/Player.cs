@@ -13,6 +13,12 @@ public class Player : MonoBehaviour
 
     public bool walking; // these will just help with animations
     public bool jumping;
+
+    public GameObject Pencil; // the pencil in the players hands
+    public int direction; // the direction the player is facing
+
+    public Transform shootPosition; // that red dot that our tip will come out of
+    public GameObject PencilTip; // the projectile pencil tip
     // Start is called before the first frame update
     void Start()
     {
@@ -27,7 +33,9 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.D)) // moving right hitting D key
         {
             transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y);
-            sprite.flipX = false; // flip the sprite to face right
+            //sprite.flipX = false; // flip the sprite to face right
+            transform.localScale = new Vector3(0.2f, 0.2f); // makes sure the whole body is facing to the right (the scale is positive on the x)
+            direction = 1; // to face positive, right
             walking = true;
         }
         else if (Input.GetKeyUp(KeyCode.D)) // when we release the key
@@ -37,7 +45,9 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) // moving left hitting A key
         {
             transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y);
-            sprite.flipX = true; // flip the sprite to face left
+            //sprite.flipX = true; // flip the sprite to face left
+            transform.localScale = new Vector3(-0.2f, 0.2f); // makes sure the whole body is facing left (the scale is negative on the x)
+            direction = -1; // to face negative, left
             walking = true;
         }
         else if (Input.GetKeyUp(KeyCode.A)) // when the key is released
@@ -48,12 +58,28 @@ public class Player : MonoBehaviour
         //animator.SetBool("isWalking", walking); // handle the walking animation
         //animator.SetBool("isJumping", jumping); // handle the jumping animation
 
-        if (Input.GetKeyDown(KeyCode.Space)) // jumping with spacebar
+        if (Input.GetKeyDown(KeyCode.W)) // jumping with spacebar
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             jumping = true;
         }
 
+        if (Input.GetKeyDown(KeyCode.Space)) // attacking with pencil
+        {
+            StartCoroutine(Attack()); // start a coroutine to attack with the pencil
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q)) // firing of the tip
+        {
+            Instantiate(PencilTip, shootPosition.position, shootPosition.rotation); // spawning the tip at our shoot position
+        }
+    }
+
+    IEnumerator Attack()
+    {
+        Pencil.transform.position = new Vector3(Pencil.transform.position.x + 0.5f * direction, Pencil.transform.position.y); // the pencil moving forward
+        yield return new WaitForSeconds(0.2f);
+        Pencil.transform.position = new Vector3(Pencil.transform.position.x - 0.5f * direction, Pencil.transform.position.y); // the pencil back in position
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
