@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player2 : MonoBehaviour
 {
     public float moveSpeed; // how fast our player can move
     public float jumpForce; // how high we can jump
@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     public Transform shootPosition; // that red dot that our tip will come out of
     public GameObject PencilTip; // the projectile pencil tip
 
-    public int Health; // how much health the player has
+    public int Health; // how much health player 2 has
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D)) // moving right hitting D key
+        if (Input.GetKey(KeyCode.RightArrow)) // moving right hitting D key
         {
             transform.position = new Vector3(transform.position.x + moveSpeed * Time.deltaTime, transform.position.y);
             //sprite.flipX = false; // flip the sprite to face right
@@ -40,11 +40,11 @@ public class Player : MonoBehaviour
             direction = 1; // to face positive, right
             walking = true;
         }
-        else if (Input.GetKeyUp(KeyCode.D)) // when we release the key
+        else if (Input.GetKeyUp(KeyCode.RightArrow)) // when we release the key
         {
             walking = false;
         }
-        if (Input.GetKey(KeyCode.A)) // moving left hitting A key
+        if (Input.GetKey(KeyCode.LeftArrow)) // moving left hitting A key
         {
             transform.position = new Vector3(transform.position.x - moveSpeed * Time.deltaTime, transform.position.y);
             //sprite.flipX = true; // flip the sprite to face left
@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
             direction = -1; // to face negative, left
             walking = true;
         }
-        else if (Input.GetKeyUp(KeyCode.A)) // when the key is released
+        else if (Input.GetKeyUp(KeyCode.LeftArrow)) // when the key is released
         {
             walking = false;
         }
@@ -60,18 +60,18 @@ public class Player : MonoBehaviour
         //animator.SetBool("isWalking", walking); // handle the walking animation
         //animator.SetBool("isJumping", jumping); // handle the jumping animation
 
-        if (Input.GetKeyDown(KeyCode.W)) // jumping with spacebar
+        if (Input.GetKeyDown(KeyCode.UpArrow)) // jumping with up arrow
         {
             rb.AddForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
             jumping = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space)) // attacking with pencil
+        if (Input.GetKeyDown(KeyCode.RightControl)) // attacking with pencil
         {
             StartCoroutine(Attack()); // start a coroutine to attack with the pencil
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) // firing of the tip
+        if (Input.GetKeyDown(KeyCode.RightShift)) // firing of the tip
         {
             Instantiate(PencilTip, shootPosition.position, shootPosition.rotation); // spawning the tip at our shoot position
         }
@@ -91,13 +91,13 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player2Pencil")) // we are getting stabbed by player 2
+        if (collision.gameObject.CompareTag("Player1Pencil"))
         {
-            Health--; // subtract health
-            // drop the key for the door
-            if (Health <= 0) // if player loses all of their health
+            Health--;
+            // drop the key
+            if(Health <= 0)
             {
-                Destroy(gameObject); // destroy player 1
+                Destroy(gameObject);
             }
         }
     }
