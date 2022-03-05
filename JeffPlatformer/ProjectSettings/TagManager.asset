@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Player1Pencil
   - Player2Pencil
+  - Bouncy
+  - Big Bounce
   layers:
   - Default
   - TransparentFX

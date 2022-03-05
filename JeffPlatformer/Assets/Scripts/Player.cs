@@ -87,6 +87,10 @@ public class Player : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         jumping = false; // when we collide with anything we are not jumping no mo
+        if (collision.gameObject.CompareTag("Bouncy")) // landing on the bouncy tile
+        {
+            rb.AddForce(Vector2.up * 20, ForceMode2D.Impulse); // add a lot of force up
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
