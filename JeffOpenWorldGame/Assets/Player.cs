@@ -16,6 +16,8 @@ public class Player : MonoBehaviour
 
     public Vector3 moveDirection; // forward position
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +30,7 @@ public class Player : MonoBehaviour
     {
         Move(); // make sure we use the function in update so it runs every frame
         Rotate(); // make sure we can rotate when playing
+        Jump(); // make sure we can jump
     }
 
     void Move() // handle all of our movement stuff
@@ -50,5 +53,11 @@ public class Player : MonoBehaviour
         playerRotation.y += yRotation; // apply the mouse y rotation
         playerRotation.x -= xRotation; // apply the mouse x rotation
         transform.rotation = Quaternion.Euler(playerRotation); // apply all rotations to the player's rotation
+    }
+
+    void Jump()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // jump up
     }
 }
