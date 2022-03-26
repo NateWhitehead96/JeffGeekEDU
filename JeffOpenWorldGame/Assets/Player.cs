@@ -16,13 +16,14 @@ public class Player : MonoBehaviour
 
     public Vector3 moveDirection; // forward position
 
-    
+    public GameObject Map; // access to the map canvas
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>(); // to link the rigidbody
         Cursor.lockState = CursorLockMode.Locked; // have the mouse locked in the middle of the screen
+        Map.SetActive(false); // make sure map is not on screen when we play
     }
 
     // Update is called once per frame
@@ -31,8 +32,23 @@ public class Player : MonoBehaviour
         Move(); // make sure we use the function in update so it runs every frame
         Rotate(); // make sure we can rotate when playing
         Jump(); // make sure we can jump
+        OpenMap(); // toggle the map (open and close it)
     }
 
+    void OpenMap()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            if (Map.activeInHierarchy) // the map is open on screen
+            {
+                Map.SetActive(false);
+            }
+            else // the map is not on screen
+            {
+                Map.SetActive(true);
+            }
+        }
+    }
     void Move() // handle all of our movement stuff
     {
         float horizontal = Input.GetAxisRaw("Horizontal"); // forward and backward inputs without using keycodes
