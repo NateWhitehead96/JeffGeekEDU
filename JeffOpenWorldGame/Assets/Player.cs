@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
 
     public GameObject Map; // access to the map canvas
 
+    // bullet stuff
+    public Transform shootPosition; // where the projectile comes from
+    public GameObject bullet; // the thing we're shooting
+    public float bulletForce; // how fast the bullet goes
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +37,16 @@ public class Player : MonoBehaviour
         Rotate(); // make sure we can rotate when playing
         Jump(); // make sure we can jump
         OpenMap(); // toggle the map (open and close it)
+        ShootBullet(); // to shoot our bullet
+    }
+
+    void ShootBullet()
+    {
+        if (Input.GetMouseButtonDown(0)) // left click
+        {
+            GameObject newBullet = Instantiate(bullet, shootPosition.position, shootPosition.rotation); // spawn the bullet
+            newBullet.GetComponent<Rigidbody>().AddForce(shootPosition.forward * bulletForce); // adding force to bullet
+        }
     }
 
     void OpenMap()
