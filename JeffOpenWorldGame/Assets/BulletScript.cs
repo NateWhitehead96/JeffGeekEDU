@@ -17,6 +17,7 @@ public class BulletScript : MonoBehaviour
     {
         expiredTime += Time.deltaTime; // counting up
         rb.AddForce(transform.forward * 10);
+        
 
         if(expiredTime >= 5) // if the bullet is on screen for more than 5 seconds, destroy it
         {

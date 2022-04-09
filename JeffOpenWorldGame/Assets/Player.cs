@@ -7,7 +7,8 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public Rigidbody rb;
     public float jumpForce;
-
+    public bool jumping; // if we have jumped or not
+    public int balloonSize; // help with knowing how much jump force to apply
     public float horizontalSpeed; // how fast we rotate left and right
     public float verticalSpeed; // how fast we rotate up and down
 
@@ -87,7 +88,16 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse); // jump up
+        if (Input.GetKeyDown(KeyCode.Space) && jumping == false)
+        {
+            rb.AddForce(Vector3.up * (jumpForce * balloonSize), ForceMode.Impulse); // jump up
+            jumping = true;
+            //Physics.gravity = new Vector3(0, -12, 0);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        jumping = false; // colliding with anything, most likely the ground
     }
 }
