@@ -8,6 +8,7 @@ public class CameraMovement : MonoBehaviour
     int boundry = 1;
     public int width;
     public int height;
+    public Vector3 mousePosition; // where our mouse is on the screen
     // Start is called before the first frame update
     void Start()
     {
@@ -18,39 +19,23 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if(Input.mousePosition.x > width - boundry) // if the mouse is to the right, we move the camera to the right
-        //{
-        //    transform.position -= new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed, 0, 0);
-        //}
-
-        //if (Input.mousePosition.x < 0 + boundry) // if the mouse is to the left, move to the left
-        //{
-        //    transform.position -= new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed, 0, 0);
-        //}
-
-        //if (Input.mousePosition.y > height - boundry) // moving up
-        //{
-        //    transform.position -= new Vector3(0, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed, 0);
-        //}
-
-        //if (Input.mousePosition.y < 0 + boundry) // moving down
-        //{
-        //    transform.position -= new Vector3(0, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed, 0);
-        //}
-
-        if (Input.GetMouseButton(0))
+        mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // constantly update our mouse position
+        
+        if(mousePosition.x > transform.position.x + 9.5f) // going to the right, mouse position is greater than camera position
         {
-            if (Input.GetAxis("Mouse X") > 0)
-            {
-                transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
-                                           0.0f, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed);
-            }
-
-            else if (Input.GetAxis("Mouse X") < 0)
-            {
-                transform.position += new Vector3(Input.GetAxisRaw("Mouse X") * Time.deltaTime * speed,
-                                           0.0f, Input.GetAxisRaw("Mouse Y") * Time.deltaTime * speed);
-            }
+            transform.position = new Vector3(transform.position.x + speed * Time.deltaTime, transform.position.y, -10);
+        }
+        if(mousePosition.x < transform.position.x - 9.5f) // going to the left when the mouse position is less than camera position
+        {
+            transform.position = new Vector3(transform.position.x - speed * Time.deltaTime, transform.position.y, -10);
+        }
+        if(mousePosition.y > transform.position.y + 4.5f) // going up when the mouse position is higher than the camera
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y + speed * Time.deltaTime, -10);
+        }
+        if(mousePosition.y < transform.position.y - 4.5f) // going down when the mouse position is under the camera
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y - speed * Time.deltaTime, -10);
         }
     }
 }

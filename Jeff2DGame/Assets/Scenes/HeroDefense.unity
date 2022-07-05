@@ -160,6 +160,9 @@ MonoBehaviour:
   unit:
     serializedVersion: 2
     m_Bits: 64
+  sprite: {fileID: 0}
+  selectedColor: {r: 0.6509434, g: 0.18200132, b: 0.015352436, a: 1}
+  notSelectedColor: {r: 0.9960785, g: 0.52156866, b: 0.3529412, a: 1}
 --- !u!50 &145836685
 Rigidbody2D:
   serializedVersion: 4
@@ -299,6 +302,9 @@ MonoBehaviour:
   unit:
     serializedVersion: 2
     m_Bits: 64
+  sprite: {fileID: 0}
+  selectedColor: {r: 0.031288937, g: 0.5943396, b: 0.014017441, a: 1}
+  notSelectedColor: {r: 0.3372549, g: 0.97647065, b: 0.31764707, a: 1}
 --- !u!50 &242439961
 Rigidbody2D:
   serializedVersion: 4
@@ -377,7 +383,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -9095717837082945937, guid: 34587324d412940a79d530020c957dc0, type: 3}
-  m_Color: {r: 0.36743864, g: 1, b: 0.3537736, a: 1}
+  m_Color: {r: 0.3353744, g: 0.9811321, b: 0.31933072, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -438,6 +444,9 @@ MonoBehaviour:
   unit:
     serializedVersion: 2
     m_Bits: 64
+  sprite: {fileID: 0}
+  selectedColor: {r: 0.7264151, g: 0.5564031, b: 0, a: 1}
+  notSelectedColor: {r: 0.9960785, g: 0.8431373, b: 0.3529412, a: 1}
 --- !u!50 &312787282
 Rigidbody2D:
   serializedVersion: 4
@@ -534,7 +543,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 312787280}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.03, y: 2.69, z: 0}
+  m_LocalPosition: {x: 2.94, y: 3.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -639,3 +648,4 @@ MonoBehaviour:
   speed: 20
   width: 0
   height: 0
+  mousePosition: {x: 0, y: 0, z: 0}
