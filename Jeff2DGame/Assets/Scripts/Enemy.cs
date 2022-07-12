@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; // access to the slider
 
 public class Enemy : MonoBehaviour
 {
@@ -8,15 +9,22 @@ public class Enemy : MonoBehaviour
     public int health;
     public float speed;
     public GameObject target; // one of the characters that touch this enemy will be this target
+    public Slider healthBar; // access to the enemy healthbar
     // Start is called before the first frame update
     void Start()
     {
-        
+        healthBar.maxValue = health; // set max health to be whatever this thing starts with
+        healthBar.gameObject.SetActive(false); // hides the health bar
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(health < healthBar.maxValue)
+        {
+            healthBar.gameObject.SetActive(true); // shows the health bar
+            healthBar.value = health; // update our health bar slider
+        }
         if(health <= 0)
         {
             Destroy(gameObject); // kill the enemy when it has 0 health

@@ -16,6 +16,8 @@ public class PlayerUnit : MonoBehaviour
     public Weapon weapon; // the weapon our character is holding
     public bool attacking; // to know if this character is currently attacking or not
     public int health; // how much health the player
+
+    public bool injured; // tell us if this unit is hurt from battle
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,10 @@ public class PlayerUnit : MonoBehaviour
             {
                 StartCoroutine(AttackEnemy());
             }
+        }
+        if(health <= 5)
+        {
+            injured = true; // only when we take enough damage, our character becomes injured
         }
         if(health <= 0)
         {
