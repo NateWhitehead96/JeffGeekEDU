@@ -16,7 +16,8 @@ public class PlayerUnit : MonoBehaviour
     public Weapon weapon; // the weapon our character is holding
     public bool attacking; // to know if this character is currently attacking or not
     public int health; // how much health the player
-
+    public float speed; // how fast the unit moves
+    public float clickTime; // cool down timer for movement
     public bool injured; // tell us if this unit is hurt from battle
     // Start is called before the first frame update
     void Start()
@@ -44,12 +45,12 @@ public class PlayerUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) && selected == true)
+        if (Input.GetMouseButtonDown(1) && selected == true && clickTime >= 3) 
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             movePosition = new Vector3(mousePos.x, mousePos.y);
         }
-        transform.position = Vector3.MoveTowards(transform.position, movePosition, Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, movePosition, speed * Time.deltaTime);
         float distance = Vector3.Distance(transform.position, movePosition); // calculating the distance from character pos to move pos
         if(distance < 0.1f && EnemiesInRange.Count != 0) // if the character is at it's destination and we have enemies nearby, we attack
         {
@@ -57,6 +58,15 @@ public class PlayerUnit : MonoBehaviour
             {
                 StartCoroutine(AttackEnemy());
             }
+        }
+        else if(distance > 0.1f) // distance is > 0.1f we are in motion towards our move position
+        {
+            clickTime = 0; // resetting the move cool down
+        }
+
+        if(transform.position == movePosition) // when our unit gets to the move position start the cooldown
+        {
+            clickTime += Time.deltaTime;
         }
         if(health <= 5)
         {
