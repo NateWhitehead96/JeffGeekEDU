@@ -52,14 +52,14 @@ public class PlayerUnit : MonoBehaviour
         }
         transform.position = Vector3.MoveTowards(transform.position, movePosition, speed * Time.deltaTime);
         float distance = Vector3.Distance(transform.position, movePosition); // calculating the distance from character pos to move pos
-        if(distance < 0.1f && EnemiesInRange.Count != 0) // if the character is at it's destination and we have enemies nearby, we attack
-        {
-            if(attacking == false)
-            {
-                StartCoroutine(AttackEnemy());
-            }
-        }
-        else if(distance > 0.1f) // distance is > 0.1f we are in motion towards our move position
+        //if(distance < 0.1f && EnemiesInRange.Count != 0) // if the character is at it's destination and we have enemies nearby, we attack
+        //{
+        //    if(attacking == true)
+        //    {
+        //        StartCoroutine(AttackEnemy());
+        //    }
+        //}
+        if(distance > 0.1f) // distance is > 0.1f we are in motion towards our move position
         {
             clickTime = 0; // resetting the move cool down
         }
@@ -76,15 +76,24 @@ public class PlayerUnit : MonoBehaviour
         {
             Destroy(gameObject);
         }
+       
     }
 
-    IEnumerator AttackEnemy()
+    public void AttackEnemy()
     {
-        attacking = true; // we're now attacking the enemy
+        //attacking = false; // make sure this only happens once
         // deal damage to enemy
         EnemiesInRange[0].GetComponent<Enemy>().health -= weapon.damage; //find the enemies health, subtract our weapon damage
-        yield return new WaitForSeconds(weapon.attackSpeed); // make us wait for however long the attack speed is
-        attacking = false;
+        if (EnemiesInRange.Count == 0) // we run out of enemies to kill, stop attacking
+        {
+            CancelInvoke();
+        }
+        //yield return new WaitForSeconds(weapon.attackSpeed); // make us wait for however long the attack speed is
+        //attacking = true; // if we're still fighting the enemy attacking goes back to true
+        //if(EnemiesInRange[0] == null) // if we have no more enemies to fight
+        //{
+        //    attacking = false;
+        //}
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -92,6 +101,15 @@ public class PlayerUnit : MonoBehaviour
         if (collision.gameObject.GetComponent<Enemy>())
         {
             movePosition = transform.position; // this will stop the player from moving when it collides with an enemy
+            //attacking = true; // touched an enemy, now is attacking
+            InvokeRepeating("AttackEnemy", 1, weapon.attackSpeed);
+        }
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Enemy>())
+        {
+            CancelInvoke(); // stop attacking if enemy leaves our area or we kill it
         }
     }
 }
