@@ -17,7 +17,7 @@ public class PlayerUnit : MonoBehaviour
     public bool attacking; // to know if this character is currently attacking or not
     public int health; // how much health the player
     public float speed; // how fast the unit moves
-    public float clickTime; // cool down timer for movement
+    //public float clickTime; // cool down timer for movement
     public bool injured; // tell us if this unit is hurt from battle
     // Start is called before the first frame update
     void Start()
@@ -45,10 +45,18 @@ public class PlayerUnit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1) && selected == true && clickTime >= 3) 
+        if (Input.GetMouseButtonDown(1) && selected == true) 
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             movePosition = new Vector3(mousePos.x, mousePos.y);
+            if(transform.position.x < movePosition.x) // we clicked to the right
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            if (transform.position.x > movePosition.x) // we clicked to the left
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
         }
         transform.position = Vector3.MoveTowards(transform.position, movePosition, speed * Time.deltaTime);
         float distance = Vector3.Distance(transform.position, movePosition); // calculating the distance from character pos to move pos
@@ -59,15 +67,15 @@ public class PlayerUnit : MonoBehaviour
         //        StartCoroutine(AttackEnemy());
         //    }
         //}
-        if(distance > 0.1f) // distance is > 0.1f we are in motion towards our move position
-        {
-            clickTime = 0; // resetting the move cool down
-        }
+        //if(distance > 0.1f) // distance is > 0.1f we are in motion towards our move position
+        //{
+        //    clickTime = 0; // resetting the move cool down
+        //}
 
-        if(transform.position == movePosition) // when our unit gets to the move position start the cooldown
-        {
-            clickTime += Time.deltaTime;
-        }
+        //if(transform.position == movePosition) // when our unit gets to the move position start the cooldown
+        //{
+        //    clickTime += Time.deltaTime;
+        //}
         if(health <= 5)
         {
             injured = true; // only when we take enough damage, our character becomes injured
@@ -103,6 +111,14 @@ public class PlayerUnit : MonoBehaviour
             movePosition = transform.position; // this will stop the player from moving when it collides with an enemy
             //attacking = true; // touched an enemy, now is attacking
             InvokeRepeating("AttackEnemy", 1, weapon.attackSpeed);
+            if (transform.position.x < collision.transform.position.x) // the enemy is to the right
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            if (transform.position.x > collision.transform.position.x) // the enemy is to the left
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
         }
     }
     private void OnCollisionExit2D(Collision2D collision)
