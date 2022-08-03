@@ -6,6 +6,7 @@ public class Projectile : MonoBehaviour
 {
     public Transform target; // where the arrow will go
     public float speed; // how fast arrow moves
+    public int damage; // how mucho damage
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,7 @@ public class Projectile : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
-            collision.gameObject.GetComponent<Enemy>().health--; // deal damage to enemy
+            collision.gameObject.GetComponent<Enemy>().health -= damage; // deal damage to enemy
             Destroy(gameObject);
         }
     }

@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Job
+{
+    Warrior,
+    Archer
+}
+
 public class PlayerUnit : MonoBehaviour
 {
+    public Job job; // character job/class/stuff
     public bool selected; // to know if this unit is selected by the player
     public Vector3 movePosition; // where the thing will move to
     public LayerMask unit;
@@ -110,7 +117,11 @@ public class PlayerUnit : MonoBehaviour
         {
             movePosition = transform.position; // this will stop the player from moving when it collides with an enemy
             //attacking = true; // touched an enemy, now is attacking
-            InvokeRepeating("AttackEnemy", 1, weapon.attackSpeed);
+            if(job == Job.Warrior)
+            {
+                InvokeRepeating("AttackEnemy", 1, weapon.attackSpeed);
+            }
+            
             if (transform.position.x < collision.transform.position.x) // the enemy is to the right
             {
                 transform.localScale = new Vector3(-1, 1, 1);
@@ -125,7 +136,10 @@ public class PlayerUnit : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>())
         {
-            CancelInvoke(); // stop attacking if enemy leaves our area or we kill it
+            if (job == Job.Warrior)
+            {
+                CancelInvoke(); // stop attacking if enemy leaves our area or we kill it
+            }
         }
     }
 }
